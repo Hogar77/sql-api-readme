@@ -36,29 +36,76 @@ cp .env.example .env
 
 Primer `.env.example`:
 
-```bash
-DATABASE_HOST=
-DATABASE_PORT=
-DATABASE_USERNAME=
-DATABASE_PASSWORD=
-DATABASE_NAME=
-JWT_SECRET=
-JWT_EXPIRATION=
+# App
+PORT=4000
+NODE_ENV=development
 
+# Frontend / public config (ako koristiš Next.js ili slično)
+NEXT_PUBLIC_API_URL=http://localhost:4000
+NEXT_PUBLIC_BASE_PATH=
+NEXT_PUBLIC_ROLE=user
+NEXT_PUBLIC_ADMIN_ROLE=admin
+ADMIN_ROLE=admin
+DEFAULT_USER_ROLE=user
 
-SMTP_HOST=
-SMTP_PORT=
-SMTP_SECURE=
-SMTP_USER=
-SMTP_PASS=
-SMTP_CODE_EXPIRATION=300000
+# Database (MSSQL u docker-compose.yml primeru)
+# Ako koristiš Postgres zameni image/port i promenljive POSTGRES_...
+DATABASE_HOST=sql
+DATABASE_PORT=1433
+DATABASE_USERNAME=sa
+DATABASE_PASSWORD=change_me_password
+DATABASE_NAME=sql_api_db
 
-ROLE_ADMIN=
+# (Opcionalno za Postgres docker image)
+POSTGRES_DB=sql_api_db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=change_me_password
 
-POSTGRES_DB=
-POSTGRES_USER=
-POSTGRES_PASSWORD=
-```
+# JWT / auth
+JWT_SECRET=change_this_to_a_strong_secret
+JWT_EXPIRATION=3600   # u sekundama ili string kao "1h"
+
+# SMTP (email)
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_SECURE=false     # true za 465
+SMTP_USER=smtp_user@example.com
+SMTP_PASS=smtp_password
+SMTP_CODE_EXPIRATION=300000   # u ms (npr. 5 minuta)
+
+# Role / admin (primer)
+ROLE_ADMIN=admin_role_name
+
+# Seller / fakturisanje (opciono)
+SELLER_NAME="My Company DOO"
+SELLER_ADDRESS="Ulica 1"
+SELLER_CITY=Beograd
+SELLER_PIB=123456789
+SELLER_MAT_BROJ=12345678
+SELLER_BANK_ACCOUNT=RS35123456789000000000
+SELLER_EMAIL=office@example.com
+SELLER_PHONE="+381600000000"
+
+# S3 / MinIO
+S3_REGION=us-east-1
+S3_BUCKET=my-bucket
+S3_ENDPOINT=http://minio:9000
+AWS_ACCESS_KEY_ID=minio_access_key
+AWS_SECRET_ACCESS_KEY=minio_secret_key
+S3_FORCE_PATH_STYLE=true
+S3_CDN_URL=
+
+# MinIO root (ako pokrećeš minio servis)
+MINIO_ROOT_USER=minio
+MINIO_ROOT_PASSWORD=minio_password
+
+# Certbot / nginx (primer e-mail u docker-compose certbot service)
+# Ostaviti prazno ili podesiti svoj kontakt e-mail (ne stavljati tajne)
+CERTBOT_EMAIL=safi@example.com
+
+# Dodatne (ako su potrebne)
+# REDIS_URL=redis://redis:6379
+# OTHER_SERVICE_URL=
 
 3. Instaliraj zavisnosti i pokreni:
 

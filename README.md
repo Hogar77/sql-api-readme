@@ -36,6 +36,10 @@ cp .env.example .env
 
 Primer `.env.example`:
 
+// ...existing code...
+Primer `.env.example`:
+
+```env
 # App
 PORT=4000
 NODE_ENV=development
@@ -106,6 +110,9 @@ CERTBOT_EMAIL=safi@example.com
 # Dodatne (ako su potrebne)
 # REDIS_URL=redis://redis:6379
 # OTHER_SERVICE_URL=
+```
+
+// ...existing code...
 
 3. Instaliraj zavisnosti i pokreni:
 
@@ -122,13 +129,13 @@ API će po defaultu biti dostupan na: `http://localhost:3000` (ili PORT iz `.env
 U direktorijumu `docker/` se nalazi primer `docker-compose.yml`. Osnovni primer:
 
 ```yaml
-version: '3.9'
+version: "3.9"
 
 services:
   api:
     build: .
     ports:
-      - '4000:4000'
+      - "4000:4000"
     env_file:
       - .env
     environment:
@@ -174,7 +181,7 @@ services:
     build:
       context: ../front-b2b # prilagodi putanju ako treba
     ports:
-      - '3000:3000'
+      - "3000:3000"
     env_file:
       - .env
     environment:
@@ -196,7 +203,7 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=${DATABASE_PASSWORD}
     ports:
-      - '${DATABASE_PORT}:1433'
+      - "${DATABASE_PORT}:1433"
     volumes:
       - mssql-data:/var/opt/mssql
     networks:
@@ -210,8 +217,8 @@ services:
       - MINIO_ROOT_USER=${AWS_ACCESS_KEY_ID}
       - MINIO_ROOT_PASSWORD=${AWS_SECRET_ACCESS_KEY}
     ports:
-      - '9000:9000'
-      - '9001:9001'
+      - "9000:9000"
+      - "9001:9001"
     volumes:
       - minio-data:/data
     networks:
@@ -221,8 +228,8 @@ services:
   nginx:
     image: nginx:stable
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
+      - "443:443"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./nginx/certs:/etc/nginx/certs:ro
@@ -247,7 +254,7 @@ services:
       # Ova putanja MORA da odgovara putanji za ACME challenge u Nginx-u
       - ./nginx/www:/var/www/certbot
     # Koristi profiles za ručno pokretanje ili za inicijalnu instalaciju sertifikata
-    profiles: ['ssl']
+    profiles: ["ssl"]
     command: >-
       certonly --webroot
       --webroot-path=/var/www/certbot
@@ -419,5 +426,3 @@ Ako želiš, mogu:
 - prilagoditi README sa tačnim komandama iz package.json (pogledam `package.json` i ubacim tačne npm skripte),
 - generisati primer `docker-compose.yml` u `docker/` folderu i napraviti PR,
 - ili dodati gotov Swagger/OpenAPI snapshot u repozitorij.
-
-Reci šta da uradim dalje.

@@ -1,50 +1,47 @@
 # sql-api
 
-REST API napisan u NestJS + TypeScript za upravljanje poslovnim entitetima (auth, korisnici, CRUD i dr.). Ovaj repozitorij sadrži kod backend servisa, dokumentaciju endpointa i instrukcije za lokalno pokretanje i deploy.
+A REST API written in NestJS + TypeScript for managing business entities (auth, users, CRUD, etc.). This repository contains the backend service code, endpoint documentation and instructions for local running and deployment.
 
-## Osnovno (kratko)
+## Basics (short)
 
-- Tehnologije: NestJS, TypeScript, Node.js
-- DB: PostgreSQL (ili MS SQL po potrebi)
-- Autentifikacija: JWT
-- Dokumentacija API‑ja: Swagger / OpenAPI
-- Deploy: Docker Compose, Nginx kao reverse proxy, Certbot za TLS
+- Technologies: NestJS, TypeScript, Node.js
+- DB: PostgreSQL (or MS SQL if needed)
+- Authentication: JWT
+- API documentation: Swagger / OpenAPI
+- Deploy: Docker Compose, Nginx as reverse proxy, Certbot for TLS
 
-## Sadržaj repozitorijuma
+## Repository structure
 
-- `/src` — izvorni TypeScript kod aplikacije (controllers, services, modules)
-- `/sql` ili `/sql-scripts` — SQL skripte / migracije / stored procedures (ako postoje)
-- `docker/` — Docker Compose i Dockerfile primeri za lokalni razvoj i deploy
-- `.env.example` — primer environment promenljivih
-- `README.md` — ovaj fajl
+- `/src` — application TypeScript source code (controllers, services, modules)
+- `/sql` or `/sql-scripts` — SQL scripts / migrations / stored procedures (if present)
+- `docker/` — example Docker Compose and Dockerfile for local development and deployment
+- `.env.example` — example environment variables
+- `README.md` — this file
 
-## Brzi start — lokalno (developer)
+## Quick start — local (developer)
 
-1. Kloniraj repozitorij:
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/Hogar77/sql-api.git
 cd sql-api
 ```
 
-2. Napravi `.env` fajl na osnovu `.env.example`:
+2. Create a `.env` file from `.env.example`:
 
 ```bash
 cp .env.example .env
-# Uredi .env i unesi prave vrednosti (ne commituj .env)
+# Edit .env and fill in real values (do not commit .env)
 ```
 
-Primer `.env.example`:
-
-// ...existing code...
-Primer `.env.example`:
+Example `.env.example`:
 
 ```env
 # App
 PORT=4000
 NODE_ENV=development
 
-# Frontend / public config (ako koristiš Next.js ili slično)
+# Frontend / public config (if you use Next.js or similar)
 NEXT_PUBLIC_API_URL=http://localhost:4000
 NEXT_PUBLIC_BASE_PATH=
 NEXT_PUBLIC_ROLE=user
@@ -52,38 +49,38 @@ NEXT_PUBLIC_ADMIN_ROLE=admin
 ADMIN_ROLE=admin
 DEFAULT_USER_ROLE=user
 
-# Database (MSSQL u docker-compose.yml primeru)
-# Ako koristiš Postgres zameni image/port i promenljive POSTGRES_...
+# Database (MSSQL in the docker-compose.yml example)
+# If you use Postgres replace the image/port and POSTGRES_... variables
 DATABASE_HOST=sql
 DATABASE_PORT=1433
 DATABASE_USERNAME=sa
 DATABASE_PASSWORD=change_me_password
 DATABASE_NAME=sql_api_db
 
-# (Opcionalno za Postgres docker image)
+# (Optional for Postgres docker image)
 POSTGRES_DB=sql_api_db
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=change_me_password
 
 # JWT / auth
 JWT_SECRET=change_this_to_a_strong_secret
-JWT_EXPIRATION=3600   # u sekundama ili string kao "1h"
+JWT_EXPIRATION=3600   # in seconds or a string like "1h"
 
 # SMTP (email)
 SMTP_HOST=smtp.example.com
 SMTP_PORT=587
-SMTP_SECURE=false     # true za 465
+SMTP_SECURE=false     # true for 465
 SMTP_USER=smtp_user@example.com
 SMTP_PASS=smtp_password
-SMTP_CODE_EXPIRATION=300000   # u ms (npr. 5 minuta)
+SMTP_CODE_EXPIRATION=300000   # in ms (e.g. 5 minutes)
 
-# Role / admin (primer)
+# Role / admin (example)
 ROLE_ADMIN=admin_role_name
 
-# Seller / fakturisanje (opciono)
+# Seller / invoicing (optional)
 SELLER_NAME="My Company DOO"
-SELLER_ADDRESS="Ulica 1"
-SELLER_CITY=Beograd
+SELLER_ADDRESS="Street 1"
+SELLER_CITY=Belgrade
 SELLER_PIB=123456789
 SELLER_MAT_BROJ=12345678
 SELLER_BANK_ACCOUNT=RS35123456789000000000
@@ -99,34 +96,32 @@ AWS_SECRET_ACCESS_KEY=minio_secret_key
 S3_FORCE_PATH_STYLE=true
 S3_CDN_URL=
 
-# MinIO root (ako pokrećeš minio servis)
+# MinIO root (if you run the minio service)
 MINIO_ROOT_USER=minio
 MINIO_ROOT_PASSWORD=minio_password
 
-# Certbot / nginx (primer e-mail u docker-compose certbot service)
-# Ostaviti prazno ili podesiti svoj kontakt e-mail (ne stavljati tajne)
+# Certbot / nginx (example contact email used in docker-compose certbot service)
+# Leave empty or set your contact e‑mail (do not put secrets)
 CERTBOT_EMAIL=safi@example.com
 
-# Dodatne (ako su potrebne)
+# Additional (if needed)
 # REDIS_URL=redis://redis:6379
 # OTHER_SERVICE_URL=
 ```
 
-// ...existing code...
-
-3. Instaliraj zavisnosti i pokreni:
+3. Install dependencies and run:
 
 ```bash
 npm install
 npm run build
-npm run start:dev    # ili `npm run start` za produkciju (ili `npm run start:prod`)
+npm run start:dev    # or `npm run start` for production (or `npm run start:prod`)
 ```
 
-API će po defaultu biti dostupan na: `http://localhost:3000` (ili PORT iz `.env`).
+By default the API will be available at: `http://localhost:3000` (or the PORT from `.env`).
 
-## Pokretanje sa Docker Compose
+## Running with Docker Compose
 
-U direktorijumu `docker/` se nalazi primer `docker-compose.yml`. Osnovni primer:
+There is an example `docker-compose.yml` in the `docker/` directory. Basic example:
 
 ```yaml
 version: "3.9"
@@ -179,7 +174,7 @@ services:
 
   frontend:
     build:
-      context: ../front-b2b # prilagodi putanju ako treba
+      context: ../front-b2b # adjust path if needed
     ports:
       - "3000:3000"
     env_file:
@@ -233,27 +228,27 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./nginx/certs:/etc/nginx/certs:ro
-      - ./nginx/www:/var/www/certbot:ro # Webroot za ACME challenge
-      - ./certbot/conf:/etc/letsencrypt:ro # Let's Encrypt sertifikati (ro, jer ih kreira Certbot)
+      - ./nginx/www:/var/www/certbot:ro # Webroot for ACME challenge
+      - ./certbot/conf:/etc/letsencrypt:ro # Let's Encrypt certs (ro, created by Certbot)
       - ./nginx/log:/var/log/nginx
     networks:
       - safi-sql
     depends_on:
       - frontend
       - api
-      # Nije striktno neophodno, ali može biti korisno ako nginx treba da sačeka Certbot (nakon inicijalnog pokretanja)
+      # Not strictly necessary but can help if nginx should wait for Certbot (after initial start)
       # - certbot
     restart: unless-stopped
 
-  # NOVI Certbot servis
+  # NEW Certbot service
   certbot:
     image: certbot/certbot
     volumes:
-      # Ova putanja MORA da odgovara putanji u Nginx servisu za sertifikate
+      # This path MUST match the certs path in the Nginx service
       - ./certbot/conf:/etc/letsencrypt
-      # Ova putanja MORA da odgovara putanji za ACME challenge u Nginx-u
+      # This path MUST match the ACME challenge webroot in Nginx
       - ./nginx/www:/var/www/certbot
-    # Koristi profiles za ručno pokretanje ili za inicijalnu instalaciju sertifikata
+    # Use profiles for manual run or initial certificate issuance
     profiles: ["ssl"]
     command: >-
       certonly --webroot
@@ -262,8 +257,8 @@ services:
       --agree-tos --no-eff-email
       -d b2b.safi.rs
     depends_on:
-      - nginx # Čeka da Nginx bude pokrenut da bi mogao da izvrši validaciju
-    # Nema restart: unless-stopped, jer se pokreće samo po potrebi (profil 'ssl')
+      - nginx # Waits for Nginx to be up for validation
+    # No restart: unless-stopped, since it runs only as needed (profile 'ssl')
 
 networks:
   safi-sql:
@@ -272,43 +267,43 @@ networks:
 volumes:
   mssql-data:
   minio-data:
-# Zakomentarisano/Uklonjeno: nginx-cert-data: jer nije korišćeno u servisima
+# Commented/Removed: nginx-cert-data as it was not used in services
 ```
 
-Pokretanje:
+Run:
 
 ```bash
 cd docker
 docker compose up --build
 ```
 
-## Baza podataka i migracije
+## Database and migrations
 
-- Ako koristiš ORM (Prisma/TypeORM), definiši migracije u folderu `prisma` ili koristeći CLI ORM‑a:
+- If you use an ORM (Prisma/TypeORM), define migrations in the `prisma` folder or use the ORM CLI:
   - Prisma:
     ```bash
     npx prisma migrate dev --name init
     npx prisma generate
     ```
-  - TypeORM (primer):
+  - TypeORM (example):
     ```bash
     npm run typeorm migration:run
     ```
-- Ako koristiš SQL skripte, izvrši ih na bazi u ispravnom redosledu (fajlovi u `/sql-scripts`).
+- If you use raw SQL scripts, execute them against the database in the correct order (files in `/sql-scripts`).
 
-## Dokumetacija API‑ja (Swagger)
+## API documentation (Swagger)
 
-Swagger je dostupan u developmentu na ruti:
+Swagger is available in development at:
 
 ```
 GET /api/docs
 ```
 
-(ili `/api` u zavisnosti od konfiguracije). Koristi Swagger da pogledaš rute, šeme i testiraš endpoint‑e.
+(or `/api` depending on configuration). Use Swagger to view routes, schemas and to test endpoints.
 
-## Primeri zahteva (curl)
+## Example requests (curl)
 
-- Login (dobijanje JWT):
+- Login (obtain JWT):
 
 ```bash
 curl -X POST "http://localhost:3000/auth/login" \
@@ -316,14 +311,14 @@ curl -X POST "http://localhost:3000/auth/login" \
   -d '{"username":"demo","password":"demo"}'
 ```
 
-- Poziv zaštićenog endpointa:
+- Call a protected endpoint:
 
 ```bash
 curl -X GET "http://localhost:3000/users/me" \
   -H "Authorization: Bearer <JWT_TOKEN>"
 ```
 
-- Kreiranje entiteta:
+- Create an entity:
 
 ```bash
 curl -X POST "http://localhost:3000/items" \
@@ -332,34 +327,34 @@ curl -X POST "http://localhost:3000/items" \
   -d '{"name":"Item 1","price":123.45}'
 ```
 
-Prilagodi rute prema implementaciji u `src/controllers`.
+Adjust routes according to implementation in `src/controllers`.
 
-## Arhitektura i dizajn (kratko)
+## Architecture and design (short)
 
-- Modularna NestJS struktura (feature modules: auth, users, items, sync itd.)
-- Services sadrže poslovnu logiku; controllers izlažu REST rute
-- DTO‑ovi i validation pipe za validaciju input‑a
-- Error handling i global filters za uniformne odgovore
+- Modular NestJS structure (feature modules: auth, users, items, sync etc.)
+- Services contain business logic; controllers expose REST routes
+- DTOs and validation pipe for input validation
+- Error handling and global filters for uniform responses
 
-## Sinhronizacija i integracije
+## Synchronization and integrations
 
-- Ako je potrebno povezivanje sa lokalnim ERP‑om (bez fiksne IP) — preporučujemo:
-  - Cloudflare Tunnel (cloudflared) ili
-  - autossh reverse tunnel ka VPS + Nginx reverse proxy ili
+- If you need to connect to a local ERP (without a fixed IP) we recommend:
+  - Cloudflare Tunnel (cloudflared) or
+  - autossh reverse tunnel to a VPS + Nginx reverse proxy or
   - WireGuard VPN
-- Koristi idempotency i retry mehanizme u sync worker‑ima; zadrži logove i queue za greške.
+- Use idempotency and retry mechanisms in sync workers; keep logs and a queue for errors.
 
-## Deployment (produkcija)
+## Deployment (production)
 
-Preporučeni stack:
+Recommended stack:
 
 - VPS / cloud instance (DigitalOcean, Hetzner, AWS EC2)
-- Docker Compose ili Kubernetes za orkestraciju
-- Nginx kao reverse proxy i terminator TLS (Certbot za Let's Encrypt)
-- Postavljanje systemd servisa / docker restart policy za resilijentnost
-- CI/CD: GitHub Actions za build i deploy pipeline (uvođenje secrets u Actions Secrets)
+- Docker Compose or Kubernetes for orchestration
+- Nginx as reverse proxy and TLS terminator (Certbot for Let's Encrypt)
+- Set up systemd services / docker restart policy for resilience
+- CI/CD: GitHub Actions for build and deploy pipeline (store secrets in Actions Secrets)
 
-Nginx primer konfiguracije (reverse proxy):
+Nginx example configuration (reverse proxy):
 
 ```nginx
 server {
@@ -374,55 +369,47 @@ server {
 }
 ```
 
-## Sigurnost i tajne
+## Security and secrets
 
-- Ne commituj stvarne tajne (.env, private keys). Dodaj `.env` u `.gitignore`.
-- Koristi secret menadžere na deployment platformi (GitHub Secrets, Vault, cloud provider secrets).
-- Rotiraj ključeve ako su ikada bili izloženi.
+- Do not commit real secrets (.env, private keys). Add `.env` to `.gitignore`.
+- Use secret managers on the deployment platform (GitHub Secrets, Vault, cloud provider secrets).
+- Rotate keys if they were ever exposed.
 
-## Testovi
+## Tests
 
-- Unit testovi i integracioni testovi (Jest ili drugi test runner):
+- Unit and integration tests (Jest or another test runner):
 
 ```bash
 npm run test
 npm run test:cov
 ```
 
-- Pokrij kritične delove poslovne logike testovima (auth, sync, idempotency).
+- Cover critical business logic with tests (auth, sync, idempotency).
 
 ## Logging & monitoring
 
-- Struktuirano logovanje (JSON ili leveled logs) sa konfigurisanim transportima
-- Health endpoint: `/health` ili `/healthz` koji vraća stanje servisa i DB konekcije
-- Integracija sa monitoring alatima (Prometheus, Grafana, Sentry za error tracking) po potrebi
+- Structured logging (JSON or leveled logs) with configured transports
+- Health endpoint: `/health` or `/healthz` that returns service and DB connection status
+- Integrate with monitoring tools (Prometheus, Grafana, Sentry for error tracking) as needed
 
 ## Troubleshooting
 
-- Proveri env varijable i DB konekciju ako servis ne startuje
-- Proveri logs: `docker logs <container>` ili systemd unit logs
-- Proveri migracije i verzije šeme baze
+- Check env variables and DB connection if the service does not start
+- Check logs: `docker logs <container>` or systemd unit logs
+- Check migrations and schema versions
 
 ## Contributing
 
-- Otvori issue za bug ili feature request
-- Napravi branch `feature/<kratak-opis>` i pošalji PR sa opisom i testovima
-- Drži commit poruke jasnim i atomarnim
+- Open an issue for bugs or feature requests
+- Create a branch `feature/<short-description>` and submit a PR with description and tests
+- Keep commit messages clear and atomic
 
 ## License
 
-- Dodaj license fajl (`LICENSE`) prema potrebi (npr. MIT).
+- Add a license file (`LICENSE`) as needed (e.g. MIT).
 
-## Korisni linkovi
+## Useful links
 
-- Repo frontend demo: https://github.com/Hogar77/front-b2b
+- Frontend demo repo: https://github.com/Hogar77/front-b2b
 - ERP sync repo: https://github.com/Hogar77/erp-api-sync
 - Live demo / API: https://b2b.safi.rs/api
-
----
-
-Ako želiš, mogu:
-
-- prilagoditi README sa tačnim komandama iz package.json (pogledam `package.json` i ubacim tačne npm skripte),
-- generisati primer `docker-compose.yml` u `docker/` folderu i napraviti PR,
-- ili dodati gotov Swagger/OpenAPI snapshot u repozitorij.
